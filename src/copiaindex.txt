@@ -1,0 +1,107 @@
+//variables y constantes
+const nombre = 'Julio';
+const apellido = 'Nuñez';
+let edad = 20;
+if (edad >= 18){
+  //Template String
+  //console.log('Hola' + nombre + ' ' + apellido + ', eres mayor de edad');
+  console.log(`Hola ${nombre} ${apellido}, eres mayor de edad`);
+}else{
+  console.log(`Hola ${nombre} ${apellido}, eres menor de edad`);
+}
+
+//Objetos 
+const persona = {
+  nombre : 'Julio',
+  apellido : 'Nuñez',
+  edad : 21,
+  direccion:{
+    ciudad: 'Guatemala',
+    depto: 'Guatemala',
+    Municipio: 'Guatemala',
+    lat: 64684,
+    lng: 41001
+  }
+}
+
+const persona2 = {
+  ...persona,
+  puesto: 'Instructor',
+  materias: 5,
+
+}
+
+persona2.nombre= 'Raul';
+console.table(persona);
+console.table(persona2);
+
+//Utilización de arreglos
+//numero de cassillas definido = 5 // indefinido ()
+
+const arreglo = new Array(5);
+arreglo[0] = 1;
+arreglo[1] = 10;
+arreglo[2] = 100;
+arreglo[3] = 1000;
+arreglo[4] = 10000;
+arreglo[5] = 100000;
+
+console.table(arreglo);
+
+const arreglo = new Array();
+arreglo.push(10);
+arreglo.push(100);
+arreglo.push(1000);
+arreglo.push(10000);
+arreglo.push(100000);
+
+console.table(arreglo);
+
+//Arreglo dentro deun arreglo
+const arreglo = [10,100,1000,10000];
+const arreglo2 = [...arreglo, 100000,100000];
+console.table(arreglo2);
+
+const arreglo3 = arreglo.map(function(elemento){
+  return elemento * 2;
+})
+console.table(arreglo3);
+
+//utilización de funciones
+const saludar = function(nombre){
+  return `Hola ${nombre} bienvenido!!1`;
+}
+
+console.log(saludar('Maria Perez'));
+
+//Function con =>
+const saludar = (nombre) => {
+  return `Hola ${nombre} bienvenido!!!`;
+}
+console.log(saludar('Maria Perez'));
+
+// funcion más corta jejej
+const saludar= (nombre) => `Hola ${nombre} bienvenido!!!`;
+console.log(saludar('Maria Perez'));
+
+const getUser = (nombre) => {
+  return {
+    username: nombre, 
+    password: 's3-Lore-s'
+  }
+}
+
+console.log(getUser('Julio Nuñez'));
+
+
+//Desestructuracion 
+const personax = {
+  id: '6584834r41f',
+  nombre: 'Julio',
+  apellido: 'Nuñez',
+  email: 'julionr@gmail.com'
+}
+//Solo sustraer esos datos
+const {id, email} = personax;
+console.log(id);
+console.log(email);
