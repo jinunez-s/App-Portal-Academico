@@ -19,6 +19,7 @@ export default function Login() {
         }
     });
 
+    //Verifica si esta vacio los campos y manda una alerta
     const login = ({ username, password }) => {
         const errores = {};
         setErrores(errores);

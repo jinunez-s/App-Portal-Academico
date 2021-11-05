@@ -3,6 +3,7 @@ import { LOGIN_ENDPOINT, APP_USERNAME, APP_PASSWORD } from '../utils/endPoints';
 import qs from 'querystring';
 import setAuthToken from '../utils/setAuthToken';
 import { SET_CURRENT_USER } from './types';
+
 export const logInUser = (userData) => dispatch => {
     const token = Buffer.from(`${APP_USERNAME}:${APP_PASSWORD}`, 'utf8').toString('base64');
     const config = {

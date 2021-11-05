@@ -20,10 +20,8 @@ export default function Navigation() {
                 <Nav className="mr-auto">
                     {!loggedIn && <Nav.Link> Clases </Nav.Link>}
                     <Nav.Link>Clases</Nav.Link>
-
                 </Nav>
                 <Nav>
-
                     {
                         !loggedIn ?
                             (<React.Fragment>
