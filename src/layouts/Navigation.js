@@ -8,6 +8,7 @@ export default function Navigation() {
     const loggedIn = useSelector(state => state.auth.loggedIn);
     const user = useSelector(state => state.auth.user);
     const dispatch = useDispatch();
+    //to=/clases es la ruta que debe coincidir con la ruta creada en App.js
 
     return (
         <Navbar bg="dark" variant="dark" expand="lg">
@@ -18,8 +19,10 @@ export default function Navigation() {
             </Navbar.Toggle>
             <Navbar.Collapse id="main-menu">
                 <Nav className="mr-auto">
-                    {!loggedIn && <Nav.Link> Clases </Nav.Link>}
-                    <Nav.Link>Clases</Nav.Link>
+                    {loggedIn && <Nav.Link as={NavLink} to="/clases"> Clases </Nav.Link>}
+                    {loggedIn && <Nav.Link as={NavLink} to="/carreras-tecnicas">Carreras Tecnicas</Nav.Link>}
+                    {loggedIn && <Nav.Link as={NavLink} to="/asignaciones-alumno">Mis asignaciones</Nav.Link>}
+
                 </Nav>
                 <Nav>
                     {
@@ -30,9 +33,9 @@ export default function Navigation() {
                                 </Nav.Link>
                             </React.Fragment>)
                             :
-                            (<NavDropdown title={user.use_name} id="menu-dropdown">
+                            (<NavDropdown title={`${user.apellidos} ${user.nombres}`} id="menu-dropdown">
                                 <NavDropdown.Item> Inscripción</NavDropdown.Item>
-                                <NavDropdown.Item onClick={() => dispatch(logoutUser())} > Log out</NavDropdown.Item>
+                                <NavDropdown.Item onClick={() => dispatch(logoutUser())}>Log out</NavDropdown.Item>
                             </NavDropdown>)
                     }
                 </Nav>

@@ -1,26 +1,26 @@
 import React, { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 
-export default function RegisterForm({ errores, onSumbitCallback }) {
+export default function RegisterForm({ errores, onSubmitCallback }) {
 
     const [username, setUserName] = useState('');
     const [password, setPassword] = useState('');
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
+    const [nombres, setNombres] = useState('');
+    const [apellidos, setApellidos] = useState('');
     const [email, setEmail] = useState('');
-    const [phone, setPhone] = useState('');
-    const [address, setAddress] = useState('');
+    const [telefono, setTelefono] = useState('');
+    const [direccion, setDireccion] = useState('');
 
     const submitForm = (e) => {
         e.preventDefault();
-        onSumbitCallback({username, password, firstName, lastName, email, phone, address});
+        onSubmitCallback({username, password, nombres, apellidos, email, telefono, direccion});
     }
 
     return (
         <Form onSubmit = {submitForm}>            
             <Form.Group control='username'>
                 <Form.Label>Username</Form.Label>
-                <Form.Control type='text' value={username} onChange = {e => setUserName(e.target.value)} placeholder='username' isInvalid={errores.username}>                    
+                <Form.Control type='text' value={username} onChange = {e => setUserName(e.target.value)} placeholder='username' isInvalid={errores.username}>
                 </Form.Control>            
             <Form.Control.Feedback type='invalid'>
                 {errores.username}
@@ -36,21 +36,21 @@ export default function RegisterForm({ errores, onSumbitCallback }) {
             </Form.Control.Feedback>
             </Form.Group>
 
-            <Form.Group control='firstName'>
+            <Form.Group control='nombres'>
                 <Form.Label>Nombres</Form.Label>
-                <Form.Control type='text' value={firstName} onChange = {e => setFirstName(e.target.value)} placeholder='Nombres' isInvalid={errores.firstName}>                    
+                <Form.Control type='text' value={nombres} onChange = {e => setNombres(e.target.value)} placeholder='Nombres' isInvalid={errores.nombres}>                    
                 </Form.Control>            
             <Form.Control.Feedback type='invalid'>
-                {errores.firstName}
+                {errores.nombres}
             </Form.Control.Feedback>
             </Form.Group>
 
-            <Form.Group control='lastName'>
+            <Form.Group control='apellidos'>
                 <Form.Label>Apellidos</Form.Label>
-                <Form.Control type='text' value={lastName} onChange = {e => setLastName(e.target.value)} placeholder='Apellidos' isInvalid={errores.lastName}>                    
+                <Form.Control type='text' value={apellidos} onChange = {e => setApellidos(e.target.value)} placeholder='Apellidos' isInvalid={errores.apellidos}>                    
                 </Form.Control>            
             <Form.Control.Feedback type='invalid'>
-                {errores.lastName}
+                {errores.apellidos}
             </Form.Control.Feedback>
             </Form.Group>
 
@@ -63,20 +63,20 @@ export default function RegisterForm({ errores, onSumbitCallback }) {
             </Form.Control.Feedback>
             </Form.Group>
 
-            <Form.Group control='phone'>
+            <Form.Group control='telefono'>
                 <Form.Label>Telefono</Form.Label>
-                <Form.Control type='tel' value={phone} onChange = {e => setPhone(e.target.value)} placeholder='phone' isInvalid={errores.phone}>                    
+                <Form.Control type='tel' value={telefono} onChange = {e => setTelefono(e.target.value)} placeholder='telefono' isInvalid={errores.telefono}>                    
                 </Form.Control>            
             <Form.Control.Feedback type='invalid'>
-                {errores.phone}
+                {errores.telefono}
             </Form.Control.Feedback>
             </Form.Group>
-            <Form.Group control='address'>
+            <Form.Group control='direccion'>
                 <Form.Label>Direccion</Form.Label>
-                <Form.Control type='textarea' value={address} onChange = {e => setAddress(e.target.value)} placeholder='Direccion' isInvalid={errores.address}>                    
+                <Form.Control type='textarea' value={direccion} onChange = {e => setDireccion(e.target.value)} placeholder='direccion' isInvalid={errores.direccion}>                    
                 </Form.Control>            
             <Form.Control.Feedback type='invalid'>
-                {errores.address}
+                {errores.direccion}
             </Form.Control.Feedback>
 
             </Form.Group>
