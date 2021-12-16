@@ -15,9 +15,9 @@ export default function AsignacionesPorAlumno() {
     useEffect(() => {
         axios.get(`${ALUMNO_ENDPOINT}/${user.carne}/asignaciones`).then(response => {
             setAsignaciones(response.data);
-            setFetching(false);
+            setFetching(false);//Esto es para indicar que ya se hizo la petición
         }).catch(e => {
-            setFetching(false);
+            setFetching(false);//Capturando algún error
         });
     }, []);
 
