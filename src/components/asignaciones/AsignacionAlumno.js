@@ -4,6 +4,10 @@ import Swal from 'sweetalert2';
 import moment from 'moment';
 import axios from 'axios';
 import { ASIGNACIONES_ENDPOINT } from '../../utils/endPoints';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import { useDispatch } from 'react-redux';
+import { logoutUser } from '../../actions/authActions';
+import { getAsignacionesPorAlumno } from '../../actions/alumnoActions';
 
 export default function AsignacionAlumno({asignacionData, registro, user }) {
 
@@ -11,14 +15,51 @@ export default function AsignacionAlumno({asignacionData, registro, user }) {
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);//Controlar que se muestre o no el formulario
     const handleShow = () => setShow(true); //
+    const [claseId, setClaseId] = useState(asignacionData.clase.claseId);
+    const [asignacionAlumno, setAsignacionAlumno] = useState({fechaAsignacion:asignacionData.fechaAsignacion, alumno: {carne: asignacionData.alumno.carne}, clase: {claseId: asignacionData.clase.claseId}});
+
+    const history = useHistory();
+    const dispatch = useDispatch();
 
     useEffect(() => {
         axios.get(`${ASIGNACIONES_ENDPOINT}`).then(({data}) => {
             console.log(data);
             setClases(data);
-        })
+        }).catch(error => {
+            if(error.status === 401){
+                dispatch(logoutUser);
+            }else{
+                history.push('/');
+            }
+        });
     },[]);
 
+    const actualizarAsignacion = async() => {
+        try{
+            asignacionAlumno.fechaAsignacion = moment(new Date()).format('YYYY-MM-DD');
+            asignacionAlumno.clase.claseId = claseId;
+            const response = await axios.put(`${ASIGNACIONES_ENDPOINT}/${asignacionData.asignacionId}`, AsignacionAlumno);
+            await dispatch(getAsignacionesPorAlumno(user.carne));
+            Swal.fire({
+                title: 'Actualizado',
+                text: `${response.data.Mensaje}`,
+                icon: 'success'
+            }).then(resultado => {
+                if(resultado.isConfirmed){
+                    setShow(false);
+                }
+            });
+        }catch(error){
+            if(error.status === 401){
+                Swal.fire('Actualización asignación', `Error: ${error.message}`, 'error');
+                setShow(false);
+                dispatch(logoutUser());
+            }else{
+                Swal.fire('Actualización asignación', `Error: ${error.message}`, 'error');
+                setShow(false);
+            }
+        }
+    }
     const eliminarAsignacion = (uuid) => {
         try {
             Swal.fire({

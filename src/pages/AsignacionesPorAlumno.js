@@ -1,25 +1,35 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { Table } from 'react-bootstrap';
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { getAsignacionesPorAlumno } from '../actions/alumnoActions';
 import AsignacionAlumno from '../components/asignaciones/AsignacionAlumno';
 import { ALUMNO_ENDPOINT } from '../utils/endPoints';
 
 export default function AsignacionesPorAlumno() {
 
-    const user = useSelector(state => state.auth.user);
-    const [asignaciones, setAsignaciones] = useState([]);
+    const user = useSelector(state => state.auth.user);    
     const [fetching, setFetching] = useState(true);
     const [fila, setFila] = useState(0);
+    const asignaciones = useSelector(state => state.asignaciones.asignaciones);
+    const fetched = useSelector(state => state.asignaciones.fetched);
+    const dispatch = useDispatch();
+
 
     useEffect(() => {
-        axios.get(`${ALUMNO_ENDPOINT}/${user.carne}/asignaciones`).then(response => {
-            setAsignaciones(response.data);
-            setFetching(false);//Esto es para indicar que ya se hizo la petición
-        }).catch(e => {
-            setFetching(false);//Capturando algún error
-        });
-    }, []);
+        async function fetchedAsignaciones(){
+            if(!fetched){
+                try{
+                    setFetching(true);
+                    await dispatch(getAsignacionesPorAlumno(user.carne));
+                    setFetching(false);
+                }catch(error){
+                    console.log(error);
+                }
+            }
+        }
+        fetchedAsignaciones();
+    }, [dispatch, fetched]);
 
     return (
         <div>

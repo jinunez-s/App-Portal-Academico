@@ -1,6 +1,8 @@
 import { combineReducers } from 'redux';
+import asignacionesPorAlumnoReducer from './asignacionesPorAlumnoReducer';
 import authReducer from './authReducer';
 
 export default combineReducers({
-    auth: authReducer
+    auth: authReducer,
+    asginaciones: asignacionesPorAlumnoReducer
 });
