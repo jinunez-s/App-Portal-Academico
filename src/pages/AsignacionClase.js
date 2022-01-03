@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useParams, Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import { Col, Container, Card, Alert } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
 import AsignacionClaseForm from '../components/forms/AsignacionClaseForm';
 import axios from 'axios';
 import { ASIGNACIONES_ENDPOINT, CLASES_ENDPOINT } from '../utils/endPoints';
@@ -11,6 +10,7 @@ import { isObjectEmpty } from '../utils/helpers';
 import moment from 'moment';
 import Swal from 'sweetalert2';
 import { useHistory } from 'react-router';
+import { getAsignacionesPorAlumno } from '../actions/alumnoActions';
 
 export default function AsignacionClase() {
 
@@ -20,21 +20,19 @@ export default function AsignacionClase() {
     const user = useSelector(state => state.auth.user);
     const history = useHistory();
     const { uuid } = useParams()
-    const [fetching, setFetching] = useState({fechaAsignacion: '', alumno:{ carne: ''}, clase: {claseId:''}});
+    const dispatch = useDispatch();
+    //const [fetching, setFetching] = useState({fechaAsignacion: '', alumno:{ carne: ''}, clase: {claseId:''}});
 
     //Registrar el ENDOPOINT    
     useEffect(() => {
         axios.get(`${CLASES_ENDPOINT}/${uuid}`).then(response => {
-            setClase(response.data);
-            setFetching(false);            
-        }).catch(e =>{
-            setFetching(false);
-        });
-    },[uuid]);
+            setClase(response.data);                       
+        })
+    },[]);
 
     //Funcion ejecutarRegistro
     //Validando la información luego que se haya ingresado
-    const registrarAsginacion = async () => {
+    const ejecutarRegistro = async () => {
         const errores = {}; //Inicializado una constante con objeto vacio
         setErrores(errores);
         if(validator.isEmpty(user.carne)){
@@ -47,11 +45,13 @@ export default function AsignacionClase() {
             setErrores = (errores);
             return;
         }
+        
         try{//Información estructurada de lo que se va almacenar del lado de la api
             registro.fechaAsignacion = moment(new Date()).format('YYYY-MM-DD');
             registro.alumno.carne = user.carne;
             registro.clase.claseId = uuid;
             const response = await axios.post(`${ASIGNACIONES_ENDPOINT}`, registro);//Se manda a llamar el Endpoint para almacenar las asignaciones //Asincrono, se ejecuta sin esperar
+            await dispatch(getAsignacionesPorAlumno(user.carne));
             Swal.fire({
                 icon:'success',
                 title:'Asignación de clase',
@@ -87,7 +87,7 @@ export default function AsignacionClase() {
                         clase && <AsignacionClaseForm
                         parametroDescripcion = {clase.descripcion}
                         errores={errores}
-                        onSubmitCallback={registrarAsginacion}
+                        onSubmitCallback={ejecutarRegistro}
                         user={user}></AsignacionClaseForm>
                     }                                                                                                 
                     <div className="mt-4">

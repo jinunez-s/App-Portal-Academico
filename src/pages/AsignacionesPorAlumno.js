@@ -11,7 +11,7 @@ export default function AsignacionesPorAlumno() {
     const user = useSelector(state => state.auth.user);    
     const [fetching, setFetching] = useState(true);
     const [fila, setFila] = useState(0);
-    const asignaciones = useSelector(state => state.asignaciones.asignaciones);
+    const asignaciones = useSelector(state => state.asignaciones.asignaciones);//error
     const fetched = useSelector(state => state.asignaciones.fetched);
     const dispatch = useDispatch();
 
